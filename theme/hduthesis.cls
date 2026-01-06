@@ -556,7 +556,7 @@
 	\vspace*{2mm}
 
 	\begin{center}
-		{\zihao{4}\bfseries Dissertation Submitted to Hangzhou Dianzi University \\ for the Degree of Master}
+		{\zihao{4}\bfseries Dissertation Submitted to \\ Hangzhou Dianzi University for the Degree of \\ Master}
 
 	\end{center}
 	\vspace{50mm}
