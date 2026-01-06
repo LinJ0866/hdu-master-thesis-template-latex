@@ -152,7 +152,12 @@
 \newcommand\HDUspace{\protect\HDU@spaceChar\protect\HDU@spaceChar}
 
 % 封面
-\renewcommand*\title[1]{\gdef\HDU@title{#1}}				    	% 论文中文标题
+% \renewcommand*\title[1]{\gdef\HDU@title{#1}}				    	% 论文中文标题
+\renewcommand*\title[3]{
+  \gdef\HDU@title{#1}
+  \gdef\HDU@titleLineOne{#2}
+  \gdef\HDU@titleLineTwo{#3}
+}
 \newcommand*\englishtitle[1]{\long\gdef\HDU@englishtitle{#1}}		% 论文英文标题
 \renewcommand*\author[1]{\gdef\HDU@author{#1}}			        	% 作者姓名
 \newcommand*\englishauthor[1]{\long\gdef\HDU@englishauthor{#1}}		% 作者英文名
@@ -164,6 +169,10 @@
 \newcommand*\englishsupervisor[1]{\gdef\HDU@englishsupervisor{#1}}	% 指导教师英文名
 \newcommand*\spvtitle[1]{\gdef\HDU@spvtitle{#1}}			    	% 指导教师职称 
 \newcommand*\englishspvtitle[1]{\gdef\HDU@englishspvtitle{#1}}	    % 指导教师英文职称 
+\newcommand*\cosupervisor[1]{\gdef\HDU@cosupervisor{#1}}				% 第二指导教师
+\newcommand*\englishcosupervisor[1]{\gdef\HDU@englishcosupervisor{#1}}	% 第二指导教师英文名
+\newcommand*\cospvtitle[1]{\gdef\HDU@cospvtitle{#1}}			    	% 第二指导教师职称 
+\newcommand*\englishcospvtitle[1]{\gdef\HDU@englishcospvtitle{#1}}	    % 第二指导教师英文职称 
 \newcommand*\cpsupervisor[1]{\gdef\HDU@cpsupervisor{#1}}			% 合作导师
 \newcommand*\cspvtitle[1]{\gdef\HDU@cspvtitle{#1}}		        	% 合作导师职称
 \newcommand*\major[1]{\gdef\HDU@major{#1}}				 			% 专业名称
@@ -344,16 +353,28 @@
 % 定义封面及标题页设置中常用的下划线命令（默认宽度90pt）
 \renewcommand\ULthickness{0.8pt}			% 重新定义下划线的厚度
 \newcommand\HDUunderline[2][90pt]{\uline{\hbox to #1{\hss#2\hss}}\hskip3pt}
+\newcommand\HDUunderwithoutline[2][90pt]{{\hbox to #1{\hss#2\hss}}\hskip3pt}
 % 重新定义\maketitle命令
 \renewcommand\maketitle{
 %	\@mainmatterfalse
 	\if@blind
 		\makeblindpage
 	\else
-		\HDUmakecover
+		
+		\IfFileExists{contents/封面.pdf}{
+			% 文件存在时执行,保证格式一致
+			\includepdf{contents/封面.pdf}
+		}{
+			\HDUmakecover
+		}
 		\HDUmakeCNtitlepage
 		\HDUmakeENtitlepage % 软件学院硕士论文要求显示英文题名页
-		\makeOSpage
+		\IfFileExists{contents/论文原创声明和使用授权说明.pdf}{
+			% 文件存在时执行
+			\includepdf{contents/论文原创声明和使用授权说明.pdf}
+		}{
+			\makeOSpage
+		}
 	\fi
 }
 % 封面
@@ -401,17 +422,23 @@
 			{\begin{minipage}[t][60pt][t]{\titleulwidth@cover}
 						 \zihao{3} \songti\bfseries
 						 \centering
-						 \uline{\HDU@title\hfill}
-					 \end{minipage}
-				}
+						%  \uline{\HDU@title\hfill}
+						\HDUunderline[\titleulwidth@cover]{\HDU@titleLineOne}\\[0.3em]
+						\ifdefempty{\HDU@titleLineTwo}{
+							\HDUunderwithoutline[\titleulwidth@cover]{}
+						}{
+							\HDUunderline[\titleulwidth@cover]{\HDU@titleLineTwo}
+						}
+			\end{minipage}}
 		\end{tabular}
 
 		\vskip 10.5mm
 		\begin{tabular}{>{\zihao{4}\songti}l>{\zihao{4}\songti}l}
 			作\,\,\,者\,\,\,姓\,\,\,名\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@author} \hspace{1em}}\\[4.4mm]
-			指\,\,\,导\,\,\,教\,\,\,师\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@supervisor} \hspace{1em} \songti{\HDU@spvtitle}}\\[4.4mm]
-%			第\,\,\,二\,\,\,教\,\,\,师\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@spvtitle} \hspace{1em}}\\[3mm] 如果你有多个导师，在这里加
-%			第\,\,\,三\,\,\,教\,\,\,师\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@spvtitle} \hspace{1em}}\\[3mm]
+			指\,\,\,导\,\,\,教\,\,\,师\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@supervisor} \,\,\, \songti{\HDU@spvtitle}}\\[4.4mm]
+			\ifdefempty{\HDU@cosupervisor}{}{
+				第\,\,\,二\,\,\,导\,\,\,师\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@cosupervisor} \,\,\, \songti{\HDU@cospvtitle}}\\[4.4mm] %如果你有多个导师，在这里加
+			}
 			\if@acad
   				% 学硕的处理
   				专\,\,\,业\,\,\,名\,\,\,称\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@major} \hspace{1em}}\\[4.4mm]
@@ -505,8 +532,8 @@
 
 	\begin{center}
 		\begin{tabular}{>{\zihao{3}\songti\bfseries}r>{\zihao{3}\kaishu}l}
-			研\,\,\,究\,\,\,生： & {\HDU@author \hspace{1em}}                   \\[10mm]
-			指导教师：            & {\HDU@supervisor \hspace{1em} \HDU@spvtitle} \\
+			姓\,\,\,\,\,\,\,\,\,\,\,\,名 & \HDUunderline[250pt]{\HDU@author \hspace{1em}}                   \\[10mm]
+			指导教师            & \HDUunderline[250pt]{\HDU@supervisor \hspace{0.5em} \HDU@spvtitle \hspace{0.5em} \ifdefempty{\HDU@cosupervisor}{}{\HDU@cosupervisor \hspace{0.5em} \HDU@cospvtitle}} \\
 		\end{tabular}
 	\end{center}
 	\vspace{40mm}
@@ -540,9 +567,14 @@
 	\vspace{40mm}
 
 	\begin{center}
-		\begin{tabular}{>{\zihao{3}\bfseries}r>{\zihao{3}\bfseries }l}
-			Candidate:  & {\HDU@englishauthor \hspace{1em}}                               \\[10mm]
-			Supervisor: & {\HDU@englishspvtitle\,\,\,\HDU@englishsupervisor \hspace{1em}} \\
+		\begin{tabular}{>{\zihao{3}\bfseries}l>{\zihao{3}\bfseries }l}
+			Author  & \HDUunderline[180pt]{\HDU@englishauthor \hspace{1em}} \\[10mm]
+			\ifdefempty{\HDU@cosupervisor}{
+				Supervisor & \HDUunderline[180pt]{\HDU@englishspvtitle\,\,\,\HDU@englishsupervisor } \\
+			}{
+				Supervisor & \HDUunderwithoutline[180pt]{\HDU@englishspvtitle\,\,\,\HDU@englishsupervisor } \\
+							& \HDUunderline[180pt]{\HDU@englishcospvtitle\,\,\,\HDU@englishcosupervisor} \\
+			}
 		\end{tabular}
 	\end{center}
 	\vspace{35mm}
@@ -581,27 +613,26 @@
 		本人郑重声明：所呈交的学位论文，是本人在导师的指导下，独立进行研究工作所取得%
 		的成果。除文中已经注明的引用的内容外，本论文不含任何其他个人或集体已经发表%
 		或撰写过的作品和成果。对本文的研究做出重要贡献的个人和集体，均已在文中以%
-		明确方式标明。申请学位论文与资料若有不实之处，本人承担一切相关责任。
-		\vspace{30pt}
-
-		\begin{center}
-			学位论文作者签名：\hspace{13ex} \signature@date
-		\end{center}
+		明确方式标明。申请学位论文与资料若有不实之处，本人承担一切相关责任。 \\[30pt]
+		% \begin{center}
+		学位论文作者签名：\hspace{13ex} \signature@date
+		% \end{center}
 
 		\vspace{30pt}
 		\begin{center}
 			\songti\zihao{4}\bfseries  学位论文使用授权说明
 		\end{center}
 		\vspace{20pt}
+		
 		本人完全了解杭州电子科技大学关于保留和使用学位论文的规定，即：研究生在校攻读%
 		学位期间论文工作的知识产权单位属杭州电子科技大学。本人保证毕业离校后，发表论文%
 		或使用论文工作成果时署名单位仍然为杭州电子科技大学。学校有权保留送交论文的复应件，%
 		允许查阅和借阅论文；学校可以公布论文的全部或者部分内容，可以允许采用影印、缩印或其它复制手段保存论文。%
 		（保密的论文在解密后遵守此规定）\\[30pt]
-		\begin{center}
-			论文作者签名：\hspace{13ex} \signature@date \\[20pt]
-			指导教师签名：\hspace{13ex} \signature@date
-		\end{center}
+		% \begin{center}
+		论文作者签名：\hspace{13ex} \signature@date \\[20pt]
+		指导教师签名：\hspace{13ex} \signature@date
+		% \end{center}
 	}
 }
 
