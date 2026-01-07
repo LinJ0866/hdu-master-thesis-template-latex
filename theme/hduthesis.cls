@@ -919,7 +919,9 @@
 % 设置浮动环境标题的字体大小。根据学位论文格式要求，插图和表格标题字体需要比正文
 % 字体略小。
 \captionsetup{%
-	format=hang,
+	% format=hang,
+	format=plain,            % 取消悬挂格式
+  	justification=centering, % 整体居中
 	labelsep=quad,		% 去掉图表号后的冒号。图序与图名文字之间空一个汉字宽度。
 	skip=10pt,			% 标题与图标之间空10pt距离。
 	font=small,			% 标题字体比正文小一号，这里取small。
