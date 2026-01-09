@@ -1011,18 +1011,27 @@
 \def\HDU@ckeywords@separator{，}
 \def\HDU@ekeywords@separator{,}
 
+\newlength{\HDU@keyword@label@width}
 
 % 用户界面命令，读取和排版关键词
 \newcommand*\ckeywords[1]{%
 	\@ckeywords{#1}
-	\vspace{5ex minus 4pt}
+	\vspace{5ex} %\vspace{5ex minus 4pt}
+	\settowidth{\HDU@keyword@label@width}{\textbf{关键词：}}%
+	\noindent
+	\hangindent\HDU@keyword@label@width%
+	\hangafter=1%
 	%\noindent\textbf{关键词：}\HDU@ckeywords}
 	\textbf{关键词：}\HDU@ckeywords}
 \newcommand*\ekeywords[1]{%
 	\@ekeywords{#1}
 	\vspace{5ex}
+	\settowidth{\HDU@keyword@label@width}{\textbf{Keywords: }}%
+	\noindent
+	\hangindent\HDU@keyword@label@width%
+	\hangafter=1%
 	%\noindent\textbf{Keywords:}\ \HDU@ekeywords}
-	\textbf{Keywords:}\ \HDU@ekeywords}
+	\textbf{Keywords: }\HDU@ekeywords}
 
 % ---------- 通用列表环境的重新定义 ----------
 % 以下列表参数的修改主要是模仿book.cls，整体样式改动不大，只是修改了参数，但是去
