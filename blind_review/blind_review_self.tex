@@ -1,22 +1,64 @@
+% 加载数据
+\DTLloaddb{mydata}{blind_review/publications.csv}
 
-\cleardoublepage
-\pdfbookmark{附录}{anchor_app}
-\newgeometry{top=2.54cm, bottom=2.54cm, left=2.8cm, right=3cm}
 
-\vspace*{-3.5mm}
-{
-  \centering
-  \heiti\zihao{3}\bfseries·附录\par
+% 定义一个空白行的宏，方便后面循环调用 (保持原有格式)
+\newcommand{\printemptyrow}{%
+    \parbox[c][1.97cm][c]{0.432cm}{\raggedright\songti\zihao{5} }  &
+    \parbox[c][1.97cm][c]{5.92cm}{\raggedright\songti\zihao{5} } &
+    \parbox[c][1.97cm][c]{2.01cm}{\raggedright\songti\zihao{5} } &
+    \parbox[c][1.97cm][c]{1.61cm}{\raggedright\songti\zihao{5} } &
+    \parbox[c][1.97cm][c]{2.01cm}{\raggedright\songti\zihao{5} } &
+    \parbox[c][1.97cm][c]{1.61cm}{\raggedright\songti\zihao{5} } \\
+    \hline%
+}
+% 定义一个计数器来记录打印了多少行
+\newcounter{rowprinted}
+
+% --- 1. 定义单行渲染格式 (辅助宏) ---
+% 这一步是为了防止在缓存扩展时出错，把格式封装起来
+\newcommand{\renderMyRow}[6]{%
+    \parbox[c][1.97cm][c]{0.432cm}{\centering\songti\zihao{5} #1} &
+    \parbox[c][1.97cm][c]{5.92cm}{\raggedright\songti\zihao{5} #2} &
+    \parbox[c][1.97cm][c]{2.01cm}{\raggedright\songti\zihao{5} #3} &
+    \parbox[c][1.97cm][c]{1.61cm}{\centering\songti\zihao{5} #4} &
+    \parbox[c][1.97cm][c]{2.01cm}{\centering\songti\zihao{5} #5} &
+    \parbox[c][1.97cm][c]{1.61cm}{\centering\songti\zihao{5} #6} \\
+    \hline
+}
+% --- 2. 准备缓存变量 ---
+\newcommand{\tableContentBuffer}{} % 初始化为空
+
+% --- 3. 在表格 *外部* 执行循环，构建缓存 ---
+\setcounter{rowprinted}{0}
+
+\DTLforeach{mydata}{%
+    \id=序号, \pub=刊物名称, \auth=作者, \year=年份, \chap=章节, \idx=索引%
+}{%
+    % 使用 \xappto (Expand Append) 将当前行的数据填充进去
+    % \noexpand 防止格式命令被提前展开，只展开 \id, \pub 等变量
+    \xappto\tableContentBuffer{%
+        \noexpand\renderMyRow{\id}{\pub}{\auth}{\year}{\chap}{\idx}%
+    }%
+    \stepcounter{rowprinted}%
 }
 
-\vspace{6.2mm}
+% --- 4. 在表格 *外部* 补充空行 ---
+\whiledo{\value{rowprinted} < 5}{%
+    % 直接追加空行宏
+    \gappto\tableContentBuffer{\printemptyrow}%
+    \stepcounter{rowprinted}%
+}
 
-{\centering\heiti\zihao{3}\bfseries 攻读硕士学位期间取得的研究成果\par}
-
-\vspace{8mm}
-
-
+\cleardoublepage
 {
+  \heiti\zihao{-2}\bfseries{}
+  \chapter{攻读硕士学位期间取得的研究成果}
+}
+\songti\zihao{5}
+\linespread{2}\selectfont
+
+{%
   \setlength{\parindent}{2.7em}
   \linespread{2.0}
   \indent 一、已发表（包括已录用待发表）的论文\par
@@ -25,72 +67,50 @@
 \vspace{2mm}
 {
   \centering\linespread{1.2}
+  % \renewcommand{\arraystretch}{2.5}  % 控制行高，根据需要调整数值
   \begin{tabular}{
-    | >{\centering\arraybackslash}m{0.432cm}<{\justifying}
-    | >{\centering\arraybackslash}m{5.92cm}<{\centering}
-    | >{\centering\arraybackslash}m{2.01cm}<{\justifying}
-    | >{\centering\arraybackslash}m{1.61cm}<{\justifying}
-    | >{\centering\arraybackslash}m{2.01cm}<{\justifying}
-    | >{\centering\arraybackslash}m{1.61cm}<{\justifying} |}
+    | >{\centering\arraybackslash}p{0.432cm}
+    | >{\centering\arraybackslash}p{5.92cm}
+    | >{\arraybackslash}p{2.01cm}
+    | >{\centering\arraybackslash}p{1.61cm}
+    | >{\arraybackslash}p{2.01cm}
+    | >{\arraybackslash}p{1.61cm} |}
     \hline
-    % 表头：宋体、小四、加粗，两端对齐（这里使用居中效果），行高0.33cm
-    {\vspace{1.5em}\songti\zihao{-4}\bfseries 序号\strut} \rule{0pt}{0.33cm}               &
-    {\songti\zihao{-4}\bfseries 发表或投稿刊物/会议名称\strut} \rule{0pt}{0.33cm}     &
-    {\songti\zihao{-4}\bfseries 作者（仅注明第几作者）\strut} \rule{0pt}{0.33cm}      &
-    {\songti\zihao{-4}\bfseries 发表年份\strut} \rule{0pt}{0.33cm}             &
-    {\songti\zihao{-4}\bfseries 与学位论文哪一部分（章、节）相关\strut} \rule{0pt}{0.33cm} &
-    {\songti\zihao{-4}\bfseries 被索引收录情况\strut} \rule{0pt}{0.33cm}            \\
-    \hline
-    % 以下行设置为1.55cm行高
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                   \\
+    % 表头
+    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 序号} &
+    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 发表或投稿刊物/会议名称} &
+    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 作者（仅注明第几作者）} &
+    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 发表年份} &
+    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 与学位论文哪一部分（章、节）相关} &
+    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 被索引收录情况} \\
     \hline
 
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                   \\
-    \hline
-
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                   \\
-    \hline
-
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                   \\
-    \hline
-
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                 &
-    {\songti\zihao{-4}\bfseries \strut} \rule{0pt}{1.55cm}                   \\
-    \hline
+    % 数据行
+    \tableContentBuffer
+    
   \end{tabular}
 }
 
 \vspace{4mm}
 
 
-{
+{%
   \setlength{\parindent}{2.5em}
   \linespread{2.0}
   \indent 二、与学位论文内容相关的其它成果（包括专利、著作、获奖项目等）\par
-  \indent 专利：\par
-  \indent 竞赛：\par
+  % \setlength{\hangindent}{2.5em} % 悬挂对齐到label
+  % \setlength{\hangindent}{5.5em} % 悬挂对齐到label后
+  \indent 专利：已授权一项发明专利，第一发明人，2020年1月\par
+
+  % \setlength{\hangindent}{2.5em} % 悬挂对齐到label
+  % \setlength{\hangindent}{5.5em} % 悬挂对齐到label后
+  \indent 著作：参与编写一本著作，第二作者，2020年1月\par
+  
+  % \setlength{\hangindent}{2.5em} % 悬挂对齐到label
+  % \setlength{\hangindent}{7.5em} % 悬挂对齐到label后
+  \indent 获奖项目：获省部级科技奖一项，第三获奖人，2020年1月\par
+
+  % \setlength{\hangindent}{2.5em} % 悬挂对齐到label
+  % \setlength{\hangindent}{5.5em} % 悬挂对齐到label后
+  \indent 竞赛：获数学建模竞赛全国一等奖，第一获奖人，2020年1月\par
 }

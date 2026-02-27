@@ -6,6 +6,20 @@
 
 ## Changelog
 
+### 260227
+
+- [x] 优化盲审编译部分因内容过长导致对齐不美观（支持对齐到label前与对齐到label后，自行启用注释修改）
+  - [x] 盲审封面：`theme/hduthesis.cls L499起`
+  - [x] 研究成果：`blind_review/blind_review_self.tex L101起`
+
+![对齐样式介绍](assets/260227-01.jpg)
+
+- [x] 优化盲审研究成果页
+  - [x] 将第一部分表格样式与内容分离，渲染时自动读取`blind_review/publications.csv`，提升写作体验
+  - [x] 字号对齐新版附件（标准字号改为5号）
+- [x] 盲审封面与成果页支持PDF替换，需分别存储至`blind_review/封面.pdf`和`blind_review/成果.pdf`
+- [x] 修改github action，可同时编译出盲审与非盲审版本
+
 ### 260109
 
 - [x] 优化中英文摘要缩进与悬挂样式

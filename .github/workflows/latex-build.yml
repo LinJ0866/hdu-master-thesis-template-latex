@@ -43,21 +43,48 @@ jobs:
             sudo fc-cache -fv
           fi
 
-      - name: Build PDF and validate result
+      # ========== 构建非盲审版 (unblind) ==========
+      - name: Build PDF (非盲审版 unblind)
         run: |
+          # 确保使用 unblind 参数：将 blind 替换为 unblind（如果存在）
+          sed -i 's/blind,/unblind,/g' main.tex
+          
           latexmk -xelatex -bibtex -interaction=nonstopmode -halt-on-error -f main.tex || true
           if [ ! -f main.pdf ]; then
-            echo "PDF generation failed: main.pdf not found"
+            echo "PDF generation failed: main.pdf not found (unblind version)"
             cat main.log || true
             exit 1
           fi
-      - name: Rename PDF with timestamp
-        run: |
           mv main.pdf main_${{ env.TIMESTAMP }}.pdf
 
-      - name: Upload PDF to GitHub Release
+      # 清理辅助文件，避免干扰下一次构建
+      - name: Clean auxiliary files
+        run: |
+          latexmk -C || true
+          rm -f main.pdf
+
+      # ========== 构建盲审版 (blind) ==========
+      - name: Build PDF (盲审版 blind)
+        run: |
+          # 恢复原始文件，确保使用 blind 参数
+          git checkout main.tex
+          
+          # 或者如果原始文件是 unblind，将其改为 blind
+          sed -i 's/unblind,/blind,/g' main.tex
+          
+          latexmk -xelatex -bibtex -interaction=nonstopmode -halt-on-error -f main.tex || true
+          if [ ! -f main.pdf ]; then
+            echo "PDF generation failed: main.pdf not found (blind version)"
+            cat main.log || true
+            exit 1
+          fi
+          mv main.pdf main_${{ env.TIMESTAMP }}_blind.pdf
+
+      - name: Upload PDFs to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: build-${{ env.TIMESTAMP }}
-          files: main_${{ env.TIMESTAMP }}.pdf
+          files: |
+            main_${{ env.TIMESTAMP }}.pdf
+            main_${{ env.TIMESTAMP }}_blind.pdf
           token: ${{ secrets.GH_PAT }}

@@ -1,7 +1,7 @@
 \documentclass[
 				oneside, 
 				nocpsupervisor, 
-				noblind, 
+				noblind, % noblind则表示非盲审，blind则表示盲审
 				academic % 去掉academic则表示专硕，加上则是学硕，控制封面元素
 				]{theme/hduthesis} % 如果你的论文不满80页，还是单面印刷吧
 
@@ -13,6 +13,8 @@
 \usepackage{makecell}
 \usepackage{diagbox}
 \usepackage{pdfpages}
+\usepackage{datatool}   % CSV 数据处理
+\usepackage{ifthen}     % 逻辑判断 (用于 while 循环)
 \title{基于xxxxxxxx方法研究}{基于xxxxxxxx方法研究}{}
 \englishtitle{xxxxxxx} % 封面和题名页使用
 
@@ -100,7 +102,15 @@
 % 作者简历
 \makeatletter
 \if@blind
-    \include{blind_review/blind_review_self.tex}
+	\IfFileExists{blind_review/成果.pdf}{
+		% 文件存在时执行,保证格式一致
+		\cleardoublepage
+		\addcontentsline{toc}{chapter}{攻读硕士学位期间取得的研究成果}
+		\pdfbookmark[0]{攻读硕士学位期间取得的研究成果}{成果}
+		\includepdf{blind_review/成果.pdf}
+	}{
+		\include{blind_review/blind_review_self.tex}
+	}
 \else
     \include{contents/c-self}
 \fi

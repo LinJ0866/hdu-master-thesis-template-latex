@@ -358,7 +358,12 @@
 \renewcommand\maketitle{
 %	\@mainmatterfalse
 	\if@blind
-		\makeblindpage
+		\IfFileExists{blind_review/封面.pdf}{
+			% 文件存在时执行,保证格式一致
+			\includepdf{blind_review/封面.pdf}
+		}{
+			\makeblindpage
+		}
 	\else
 		
 		\IfFileExists{contents/封面.pdf}{
@@ -491,14 +496,22 @@
 			\zihao{-2}\songti
 			\setlength{\parindent}{1.01cm}
 			\setlength{\baselineskip}{41pt}
+			% \setlength{\hangindent}{1.01cm} % 悬挂对齐到label
+			\setlength{\hangindent}{4.15cm} % 悬挂对齐到label后
 			\indent 论文题目：\HDU@title \par
 			\indent \mbox{}\par
 			\if@acad
+			% \setlength{\hangindent}{1.01cm} % 悬挂对齐到label
+			\setlength{\hangindent}{4.15cm} % 悬挂对齐到label后
 			\indent 专业名称：\HDU@major\par
 			\else
+			% \setlength{\hangindent}{1.01cm} % 悬挂对齐到label
+			\setlength{\hangindent}{7.8cm} % 悬挂对齐到label后
 			\indent 专业学位类别（领域）：\HDU@major\par
 			\fi
 			\indent \mbox{}\par
+			% \setlength{\hangindent}{1.01cm} % 悬挂对齐到label
+			\setlength{\hangindent}{4.15cm} % 悬挂对齐到label后
 			\indent 研究方向：\HDU@research\par
 }
 %	\vspace{40mm}
