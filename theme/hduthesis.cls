@@ -689,8 +689,9 @@
 	\@afterheading}		% 不知道这个\@afterheading有什么用，先放着。
 
 \def\@makechapterhead#1{%
-	\vspace*{20\p@}%
-	{\parindent \z@ \centering
+	\vspace*{-3pt}
+	{
+		\parindent \z@ \centering
 		\heiti\zihao{3} %\bfseries %% 修改各节标题为黑体四号字，各小节标题为黑体小四号字，均靠左。 %% ydar
 		\ifnum \c@secnumdepth >\m@ne
 			\if@mainmatter
@@ -699,7 +700,9 @@
 		\fi
 		\interlinepenalty\@M
 		#1\par\nobreak
-		\vskip 24\p@}}
+		\vspace{15pt}
+	}
+}
 
 
 % 新建一个章节标题宏，用法跟\chapter一样，只不过在无星号时，标题插入目录，但是没
