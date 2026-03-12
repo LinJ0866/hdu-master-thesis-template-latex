@@ -771,7 +771,7 @@
 	\pagestyle{HDU@headings}}
 \renewcommand\frontmatter{%
 	\if@openright\cleardoublepage\else\clearpage\fi%
-	\pagenumbering{Roman}
+	% \pagenumbering{Roman}
 	\@mainmatterfalse
 	\pagestyle{HDU@headings}}
 \renewcommand\mainmatter{%
