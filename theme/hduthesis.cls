@@ -493,7 +493,7 @@
 	\vspace{33.5mm}
 
 {
-			\zihao{-2}\songti
+			\zihao{-2}\songti\bfseries
 			\setlength{\parindent}{1.01cm}
 			\setlength{\baselineskip}{41pt}
 			% \setlength{\hangindent}{1.01cm} % 悬挂对齐到label

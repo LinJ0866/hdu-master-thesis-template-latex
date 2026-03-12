@@ -27,4 +27,10 @@
 *.swo
 .texpadtmp/
 .DS_Store
-/*.pdf
+*.pdf
+!figures/*.pdf
+!figures/*/*.pdf
+!contents/封面.pdf
+!contents/论文原创声明和使用授权说明.pdf
+!blind_review/封面.pdf
+!blind_review/成果.pdf
