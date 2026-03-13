@@ -341,11 +341,11 @@
 \newfontfamily{\HDU@SimSun}{SimSun}[Path=fonts/,AutoFakeBold=1.5,AutoFakeSlant=0.25]
 \newfontfamily{\HDU@SimHei}{SimHei}[Path=fonts/,AutoFakeBold=1.5,AutoFakeSlant=0.25]
 \newfontfamily{\HDU@SimKai}{KaiTi}[Path=fonts/,AutoFakeBold=1.5,AutoFakeSlant=0.25]
-\setCJKfamilyfont{zhsong}{SimSun}[Path=fonts/,AutoFakeBold=1.5,AutoFakeSlant=0.25]
+\setCJKfamilyfont{zhsong}{SimSun}[Path=fonts/,AutoFakeBold=2.5,AutoFakeSlant=0.25]
 \setCJKfamilyfont{zhhei}{SimHei}[Path=fonts/,AutoFakeBold=1.5,AutoFakeSlant=0.25]
 \setCJKfamilyfont{zhfang}{FangSong}[Path=fonts/,AutoFakeBold=1.5,AutoFakeSlant=0.25]
 \setCJKfamilyfont{zhkai}{KaiTi}[Path=fonts/,AutoFakeBold=1.5,AutoFakeSlant=0.25]
-\setCJKromanfont{SimSun}[Path=fonts/,AutoFakeBold=1.5,ItalicFont={FangSong}]
+\setCJKromanfont{SimSun}[Path=fonts/,AutoFakeBold=2.5,ItalicFont={FangSong}]
 \setCJKsansfont{SimHei}[Path=fonts/,AutoFakeBold=1.5,ItalicFont={KaiTi}]
 \setCJKmonofont{FangSong}[Path=fonts/,AutoFakeBold=1.5,ItalicFont={FangSong}]
 

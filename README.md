@@ -6,6 +6,10 @@
 
 ## Changelog
 
+### 260314
+
+- [x] 调整宋体加粗后字重，使加粗更明显 [issues2](https://github.com/LinJ0866/hdu-master-thesis-template-latex/issues/2)
+
 ### 260312
 
 - [x] 对齐目录页码，图表目录前置，页码编号继承
