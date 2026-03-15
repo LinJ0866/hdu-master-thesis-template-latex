@@ -208,57 +208,30 @@
   \fi
   }
 
-
-
-% 正文部分文字的行距设置
-\renewcommand\baselinestretch{1.5} \normalsize
+% ==========================================
+% 1. 行距设置，20磅（预估）
+% ==========================================
+\RequirePackage{setspace}
+\setstretch{1.4}
 \setlength\baselineskip{20pt}
-% 关掉 CTeX 的 1.3 倍行距
-% \linespread{1}
-% % 关掉 0pt-1pt 的弹性段间距
-% \setlength{\parskip}{0pt}
-%---------- 版面设置 ----------
-% 纸张大小按照A4paper
-\setlength\paperheight{297mm}
-\setlength\paperwidth {210mm}	%  \paperwidth = h + \oddsidemargin+\textwidth+\evensidemargin + h
-% 版心尺寸
-\setlength\voffset{20\p@}
-%\setlength\hoffset{10\p@}
-\setlength\headheight{12\p@}	% 页眉高度
-\setlength\headsep{14\p@}		% 页眉与正文间距
-\setlength\topskip{20\p@}		% 每页第一行的行间距
-\setlength\footskip{30\p@}		% 页脚基线与每一页最后一行文本基线的距离
-\setlength\maxdepth{.2\topskip}	% \maxdepth + \topskip = typesize × 1.5
-% 软件学院要求版心左、右外边距3.2cm （無理無茶! 简直丑爆了！不能忍）
-% 此处缩小了版心外边距到处女座可以接受的值 左边距25mm 右边距23mm 2mm差值消除胶装影响
-\setlength\textwidth{16.2cm}	% book.cls文档对texthight和textwidth的
-\setlength\textheight{23.7cm}	% 定义比较复杂，但是比较合理
-\setlength\marginparsep{10\p@}	% 边注与正文区域的间距
-%\setlength\marginparpush{7\p@}	% 两个边注之间的距离，感觉设不设置无所谓
-% 单双页面边栏设置
-\if@twoside
-	\setlength\oddsidemargin{2.6cm}
-	\addtolength\oddsidemargin {-1in}
-	\setlength\evensidemargin{2cm}
-	\addtolength\evensidemargin {-1in}
-	\setlength\marginparwidth{45\p@}
-\else
-	\setlength\oddsidemargin{2.5cm}		% 根据要求，默认单面打印左边距为2.5cm。
-	\addtolength\oddsidemargin {-1in}	% 发现latex2e默认在页面四周各留出1in的空白，所以要减去这1in。
-	\setlength\evensidemargin{2.0cm}
-	\addtolength\evensidemargin {-1in}	% oneside下奇偶页侧边空白相同。
-	\setlength\marginparwidth{50\p@}
-\fi
 
+% ==========================================
+% 2. 版面设置 (使用 geometry 宏包替代原生计算)
+% ==========================================
+\RequirePackage{geometry}
 
-% 设置topmargin的尺寸
-\setlength\topmargin{\paperheight}
-\addtolength\topmargin{-2in}
-\addtolength\topmargin{-\headheight}
-\addtolength\topmargin{-\headsep}
-\addtolength\topmargin{-\textheight}
-\addtolength\topmargin{-\footskip}
-\addtolength\topmargin{-.5\topmargin}
+% 基础全局设置
+\geometry{
+    a4paper,            % 纸张大小
+	left=3.17cm,        % 左边距 (3.17cm 是 Word 默认标准，可按需修改)
+    right=3.17cm,       % 右边距 (与左边距保持一致)
+	top=2.0cm,        % 纸张顶端到页眉顶部
+    includeheadfoot,  % top/bottom 包含页眉页脚区域
+    bottom=2.0cm,
+    headheight=12pt,    % 页眉高度
+    headsep=14pt,       % 页眉与正文间距
+    footskip=20pt       % 页脚基线与正文最后一行基线的距离
+}
 
 % 双面打印时空白页中间显示文本
 \newcommand*{\HDU@blankpage}{%
@@ -655,11 +628,14 @@
 \setcounter{secnumdepth}{4}		%设置为四级标题
 \renewcommand\@chapapp{第\thechapter 章}%
 
+% 重定义节、子节编号与标题文字之间的间距
+\renewcommand{\@seccntformat}[1]{\csname the#1\endcsname\hskip 0.5em\relax}
+
 % 以下对标题格式采用laTeX2e底层命令主要是为了防止ctex宏包升级改变导致的命令不兼
 % 容性，假如2.0之后宏包对1.02宏包命令不再支持，以后又要修改，不如一鼓作气。
 % 现在以下命令可以正常工作，调整参数则慢慢来吧。
 
-%% 章标题格式设置----小三仿宋加黑
+%% 章标题格式设置----3号黑体
 \renewcommand\chapter{%
   \if@openright\cleardoublepage\else\clearpage\fi%
   \phantomsection			% hyperref宏包的命令，超链接用。
@@ -692,10 +668,10 @@
 	\vspace*{-3pt}
 	{
 		\parindent \z@ \centering
-		\heiti\zihao{3} %\bfseries %% 修改各节标题为黑体四号字，各小节标题为黑体小四号字，均靠左。 %% ydar
+		\heiti\zihao{3} %\bfseries %% 修改各节标题为黑体三号字，
 		\ifnum \c@secnumdepth >\m@ne
 			\if@mainmatter
-				\@chapapp \hskip1em%
+				\@chapapp \hskip0.5em%
 			\fi
 		\fi
 		\interlinepenalty\@M
@@ -962,7 +938,7 @@
 
 % 文本行之间浮动体（使用h位置选项）与上下文之间的距离，默认为12pt plus 2pt minus
 % 2pt。
-\setlength{\intextsep}{20bp \@plus4pt \@minus2pt}
+\setlength{\intextsep}{10bp \@plus4pt \@minus2pt}
 
 % 版心顶部或底部的浮动体与文本之间的距离，默认为12pt plus 2pt minus 2pt。
 \setlength{\textfloatsep}{20bp \@plus4pt \@minus2pt}

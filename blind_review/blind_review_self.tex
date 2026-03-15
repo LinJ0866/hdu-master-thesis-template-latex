@@ -68,27 +68,29 @@
 {
   \centering\linespread{1.2}
   % \renewcommand{\arraystretch}{2.5}  % 控制行高，根据需要调整数值
-  \begin{tabular}{
-    | >{\centering\arraybackslash}p{0.432cm}
-    | >{\centering\arraybackslash}p{5.92cm}
-    | >{\arraybackslash}p{2.01cm}
-    | >{\centering\arraybackslash}p{1.61cm}
-    | >{\arraybackslash}p{2.01cm}
-    | >{\arraybackslash}p{1.61cm} |}
-    \hline
-    % 表头
-    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 序号} &
-    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 发表或投稿刊物/会议名称} &
-    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 作者（仅注明第几作者）} &
-    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 发表年份} &
-    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 与学位论文哪一部分（章、节）相关} &
-    \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 被索引收录情况} \\
-    \hline
+  \begin{adjustbox}{width=\textwidth}
+    \begin{tabular}{
+      | >{\centering\arraybackslash}p{0.432cm}
+      | >{\centering\arraybackslash}p{5.92cm}
+      | >{\arraybackslash}p{2.01cm}
+      | >{\centering\arraybackslash}p{1.61cm}
+      | >{\arraybackslash}p{2.01cm}
+      | >{\arraybackslash}p{1.61cm} |}
+      \hline
+      % 表头
+      \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 序号} &
+      \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 发表或投稿刊物/会议名称} &
+      \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 作者（仅注明第几作者）} &
+      \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 发表年份} &
+      \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 与学位论文哪一部分（章、节）相关} &
+      \parbox[c][2.16cm][c]{\linewidth}{\songti\zihao{5}\bfseries 被索引收录情况} \\
+      \hline
 
-    % 数据行
-    \tableContentBuffer
-    
-  \end{tabular}
+      % 数据行
+      \tableContentBuffer
+      
+    \end{tabular}
+  \end{adjustbox}
 }
 
 \vspace{4mm}
