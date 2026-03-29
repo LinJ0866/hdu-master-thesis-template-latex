@@ -665,7 +665,7 @@
 	\@afterheading}		% 不知道这个\@afterheading有什么用，先放着。
 
 \def\@makechapterhead#1{%
-	\vspace*{-3pt}
+	\vspace*{1pt}
 	{
 		\parindent \z@ \centering
 		\heiti\zihao{3} %\bfseries %% 修改各节标题为黑体三号字，
@@ -1008,7 +1008,7 @@
 % 用户界面命令，读取和排版关键词
 \newcommand*\ckeywords[1]{%
 	\@ckeywords{#1}
-	\vspace{5ex} %\vspace{5ex minus 4pt}
+	\par\addvspace{\baselineskip}
 	\settowidth{\HDU@keyword@label@width}{\textbf{关键词：}}%
 	\noindent
 	\hangindent\HDU@keyword@label@width%
@@ -1017,7 +1017,7 @@
 	\textbf{关键词：}\HDU@ckeywords}
 \newcommand*\ekeywords[1]{%
 	\@ekeywords{#1}
-	\vspace{5ex}
+	\par\addvspace{\baselineskip}
 	\settowidth{\HDU@keyword@label@width}{\textbf{Keywords: }}%
 	\noindent
 	\hangindent\HDU@keyword@label@width%
