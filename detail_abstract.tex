@@ -1,0 +1,71 @@
+\documentclass[
+				oneside, 
+				nocpsupervisor, 
+				academic % 去掉academic则表示专硕，加上则是学硕，控制封面元素
+				]{theme/hduthesis}
+
+\newcommand{\mycite}[1]{\scalebox{1.3}[1.3]{\raisebox{-0.65ex}{\cite{#1}}}}
+
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{\node[shape=circle,draw,inner sep=0.15ex] (char) {#1};}}
+
+
+\usepackage{makecell}
+\usepackage{diagbox}
+\usepackage{pdfpages}
+\usepackage{bbding}
+\usepackage{datatool}   % CSV 数据处理
+\usepackage{ifthen}     % 逻辑判断 (用于 while 循环)
+\usepackage{adjustbox}
+
+\title{基于xxxxxxxx方法研究}{基于xxxxxxxx方法研究}{}
+\englishtitle{xxxxxxx} % 封面和题名页使用
+
+
+\author{xx}% 申请人姓名 封面使用
+\englishauthor{xxxxxx}
+
+\classification{TP311.1}    % 封面头使用
+\serialnumber{10336}        % 封面头使用
+\secretlevel{}            % 封面头使用
+\studentnumber{123456789}    % 封面头使用
+
+\supervisor{xxxx}
+\englishsupervisor{xxxxx}
+\englishspvtitle{Prof.}     % 职称 封面使用
+\spvtitle{教授}             % 职称 封面使用
+   
+% \cpsupervisor{合作导师}      % 合作导师，如果没有合作导师，就在此文件第 4 行\documentclass选项栏中加上"nocpsupervisor"。
+% \cspvtitle{副教授}           % 合作导师职称
+
+\cosupervisor{xxx}        % 二导，若无请留空
+\englishcosupervisor{xxxxx}
+\englishcospvtitle{A.P.}     % 职称 封面使用
+\cospvtitle{副教授}             % 职称 封面使用
+
+% 从机械工程学院改来，保留设定变量命名
+\major{xxxx}
+\degree{工学}
+\research{xxxxx}
+\institute{xxxxxx}    % 所在学位栏 填 软件学院
+
+\submitdate{2026年3月}   % 论文提交日期 栏
+
+% 答辩日期
+\defenceyear{2026}
+\defencemonth{5}
+\defenceday{17}
+
+% 论文前置部分变量填写完毕 开始全书排版
+\begin{document}
+
+% 封面、中文题名页、英文题名页、独创声明和版权使用书 无页码
+\makeDetailAbstracttitle
+
+
+% 正文
+\mainmatter
+% 直接粘贴摘要
+详细摘要占位详细摘要占位详细摘要占位详细摘要占位详细摘要占位详细摘要占位详细摘要占位详细摘要占位详细摘要占位
+
+
+\end{document}

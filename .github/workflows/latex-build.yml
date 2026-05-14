@@ -57,6 +57,16 @@ jobs:
           fi
           mv main.pdf main_${{ env.TIMESTAMP }}.pdf
 
+      - name: Build detail_abstract PDF
+        run: |
+          latexmk -xelatex -interaction=nonstopmode -halt-on-error -f detail_abstract.tex || true
+          if [ ! -f detail_abstract.pdf ]; then
+            echo "PDF generation failed: detail_abstract.pdf not found"
+            cat detail_abstract.log || true
+            exit 1
+          fi
+          mv detail_abstract.pdf ${{ env.TIMESTAMP }}_detail_abstract.pdf
+
       # 清理辅助文件，避免干扰下一次构建
       - name: Clean auxiliary files
         run: |
@@ -87,4 +97,5 @@ jobs:
           files: |
             main_${{ env.TIMESTAMP }}.pdf
             main_${{ env.TIMESTAMP }}_blind.pdf
+            ${{ env.TIMESTAMP }}_detail_abstract.pdf
           token: ${{ secrets.GH_PAT }}

@@ -355,6 +355,16 @@
 		}
 	\fi
 }
+% 重新定义\maketitle命令
+\newcommand\makeDetailAbstracttitle{
+%	\@mainmatterfalse
+	\IfFileExists{contents/详细摘要封面.pdf}{
+		% 文件存在时执行,保证格式一致
+		\includepdf{contents/详细摘要封面.pdf}
+	}{
+		\HDUmakeDetailAbstractCover
+	}
+}
 % 封面
 \newcommand\HDUmakecover{
 	\cleardoublepage
@@ -376,6 +386,89 @@
 		\vspace{9.47mm}
 		{
 			{\zihao{1}\heiti 硕\hspace{0.5em}士\hspace{0.5em}学\hspace{0.5em}位\hspace{0.5em}论\hspace{0.5em}文}
+		}\par
+		\vspace{6mm}
+		{
+		\if@acad
+  			% 学硕的处理
+  			{\zihao{-1}\songti （学术学位）}
+		\else
+  			% 专硕的处理
+  			{\zihao{-1}\songti （专业学位）}
+		\fi
+		}\par
+		\vspace{3mm}
+		\includegraphics[width=29mm]{theme/logo/logo.png}\par
+	\end{center}
+	\vspace{5.8mm}
+	% 新建一个长度寄存器，存放封面标题下划线宽度值
+	\newlength{\titleulwidth@cover}
+	\addtolength{\titleulwidth@cover}{260pt}
+	\begin{center}
+		\begin{tabular}[t]{>{\zihao{3}\songti\bfseries}rc}
+			论文题目: &
+			{\begin{minipage}[t][60pt][t]{\titleulwidth@cover}
+						 \zihao{3} \songti\bfseries
+						 \centering
+						%  \uline{\HDU@title\hfill}
+						\HDUunderline[\titleulwidth@cover]{\HDU@titleLineOne}\\[0.3em]
+						\ifdefempty{\HDU@titleLineTwo}{
+							\HDUunderwithoutline[\titleulwidth@cover]{}
+						}{
+							\HDUunderline[\titleulwidth@cover]{\HDU@titleLineTwo}
+						}
+			\end{minipage}}
+		\end{tabular}
+
+		\vskip 10.5mm
+		\begin{tabular}{>{\zihao{4}\songti}l>{\zihao{4}\songti}l}
+			作\,\,\,者\,\,\,姓\,\,\,名\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@author} \hspace{1em}}\\[4.4mm]
+			指\,\,\,导\,\,\,教\,\,\,师\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@supervisor} \,\,\, \songti{\HDU@spvtitle}}\\[4.4mm]
+			\ifdefempty{\HDU@cosupervisor}{}{
+				第\,\,\,二\,\,\,导\,\,\,师\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@cosupervisor} \,\,\, \songti{\HDU@cospvtitle}}\\[4.4mm] %如果你有多个导师，在这里加
+			}
+			\if@acad
+  				% 学硕的处理
+  				专\,\,\,业\,\,\,名\,\,\,称\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@major} \hspace{1em}}\\[4.4mm]
+			\else
+  				% 专硕的处理
+  				专业学位类别：            			 \HDUunderline[166pt]{ \songti{\HDU@degree} \hspace{1em}}\\[4.4mm]
+			专\,\,\,业\,\,\,领\,\,\,领\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@major} \hspace{1em}}\\[4.4mm]
+			\fi
+
+			
+			所\,\,\,在\,\,\,学\,\,\,院\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@institute} \hspace{1em}}\\[4.4mm]
+			完\,\,\,成\,\,\,时\,\,\,间\,\,\,： \HDUunderline[166pt]{ \songti{\HDU@submitdate} \hspace{1em}}\\[4.4mm]
+		\end{tabular}
+	\end{center}
+	\vskip 20mm
+	\restoregeometry
+}
+% 封面
+\newcommand\HDUmakeDetailAbstractCover{
+	\cleardoublepage
+	\pdfbookmark[0]{封面}{anchor_cover}
+	\thispagestyle{HDU@empty}
+	\newgeometry{top=2.7cm, bottom=2.5cm, left=2.7cm, right=2.7cm}
+	
+{	\renewcommand{\arraystretch}{0.05}
+	\begin{tabular}{>{\zihao{-4}\songti}l>{\zihao{-4}\songti}l>{\zihao{-4}\songti}l>{\zihao{-4}\songti}l>{\zihao{-4}\songti}l}
+  学号：  & \HDUunderline[86pt]{\zihao{-4}\songti{\HDU@studentnumber}\hspace{1em}} & \makebox[49mm]{}
+ & 学校代码：  & \HDUunderline[60pt]{\zihao{-4}\songti{\HDU@serialnumber}\hspace{1em}} \\[3mm]
+  密级：  & \HDUunderline[86pt]{\kaishu{\HDU@secretlevel}\hspace{1em}} &  &  & \\[3mm]
+\end{tabular}
+}
+
+\vspace{3mm}
+	\begin{center}
+		\hspace{-1.2mm}\includegraphics[width=124.1638mm]{theme/logo/HDUlogo.png}\par
+		\vspace{9.47mm}
+		{
+			{\zihao{1}\heiti 硕\hspace{0.5em}士\hspace{0.5em}学\hspace{0.5em}位\hspace{0.5em}论\hspace{0.5em}文}
+		}\par
+		\vspace{6mm}
+		{
+			{\zihao{1}\heiti 详\hspace{0.5em}细\hspace{0.5em}摘\hspace{0.5em}要}
 		}\par
 		\vspace{6mm}
 		{
