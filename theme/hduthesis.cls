@@ -241,8 +241,7 @@
 \def\cleardoublepage{%
 	\clearpage
 	\if@twoside
-		\ifodd
-			\c@page
+		\ifodd\numexpr\c@page+\c@HDU@sheetoffset\relax
 		\else
 			% 下面这个命令，如果不需要强调这是空白页，或者学校不允许，则可将其注释掉。
 %			\HDU@blankpage
@@ -267,11 +266,16 @@
 \fi
 
 % 空白页：没有页眉页脚和页码
+% sheetoffset 用于追踪被隐藏（不计入页码）的物理页数
+\newcounter{HDU@sheetoffset}
 \def\ps@HDU@empty{%
 	\let\@oddhead\@empty%
 	\let\@evenhead\@empty%
 	\let\@oddfoot\@empty%
-	\let\@evenfoot\@empty}
+	\let\@evenfoot\@empty
+	\addtocounter{page}{-1}%
+	\addtocounter{HDU@sheetoffset}{1}%
+	}
 
 % plain样式：只有页脚居中页码
 \def\ps@HDU@plain{%
@@ -836,6 +840,7 @@
 \newcommand\abstractmatter{%
 	\if@openright\cleardoublepage\else\clearpage\fi%
 	\pagenumbering{Roman}
+	\setcounter{HDU@sheetoffset}{0}%
 	\@mainmatterfalse
 	\pagestyle{HDU@headings}}
 \renewcommand\frontmatter{%
@@ -847,6 +852,7 @@
 	\if@openright\cleardoublepage\else\clearpage\fi%
 	\@mainmattertrue
 	\pagenumbering{arabic}
+	\setcounter{HDU@sheetoffset}{0}%
 	\pagestyle{HDU@headings}}
 \renewcommand\backmatter{%
 	\if@openright\cleardoublepage\else\clearpage\fi%
